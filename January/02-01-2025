@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    int countSubarrays(vector<int>& arr, int k) {
+    unordered_map<int, int> mp;
+    int count = 0;
+    int prefixSum = 0;
+
+    // Initialize the hash map with prefixSum 0 to handle subarrays starting at index 0
+    mp[0] = 1;
+
+    for (int i = 0; i < arr.size(); i++) {
+        // Update prefix sum
+        prefixSum += arr[i];
+
+        // Check if there's a subarray with sum k
+        if (mp.find(prefixSum - k) != mp.end()) {
+            count += mp[prefixSum - k];
+        }
+
+        // Update the hash map with the current prefix sum
+        mp[prefixSum]++;
+    }
+
+    return count;
+}
+
+};
