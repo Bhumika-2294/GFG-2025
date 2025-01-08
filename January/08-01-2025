@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    // Function to count the number of possible triangles.
+    int countTriangles(vector<int>& arr) {
+        // code here
+        int size = arr.size(), count = 0;
+        sort(arr.begin(), arr.end());
+        
+        for(int index=size-1; index>=2; index--) {
+            int left = 0, right = index-1;
+            
+            while(left < right) {
+                if(arr[left]+arr[right] > arr[index]) {
+                    count += right-left;
+                    right--;
+                }
+                else {
+                    left++;
+                }
+            }
+        }
+        
+        return count;
+    }
+};
