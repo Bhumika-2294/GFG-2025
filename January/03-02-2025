@@ -1,0 +1,16 @@
+class Solution {
+  public:
+    int helper(Node* node) {
+        if(node == NULL)return 0;
+        
+        int leftHeight = helper(node->left);
+        int rightHeight = helper(node->right);
+        return max(leftHeight, rightHeight) + 1;
+    }
+  
+    int height(Node* node) {
+        if(node == NULL)return 0;
+        
+        return helper(node) - 1;
+    }
+};
