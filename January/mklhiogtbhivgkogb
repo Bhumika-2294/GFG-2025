@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    int maxi = 0;
+    int height(Node* node) {
+        if(!node) return 0;
+        
+        int leftHeight = 1 + height(node -> left);
+        int rightHeight = 1 + height(node -> right);
+        
+        maxi = max(maxi,leftHeight+rightHeight-2);
+        return max(leftHeight, rightHeight);
+    }
+    
+    int diameter(Node* root) {
+        return max(maxi,height(root->left)+height(root->right));
+    }
+};
