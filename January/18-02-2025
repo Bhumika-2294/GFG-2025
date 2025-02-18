@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int squaredDistance(vector<int>& point) {
+        return point[0] * point[0] + point[1] * point[1];
+    }
+
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue<pair<int, int>> maxPQ;
+        for (int i = 0; i < points.size(); i++) {
+            maxPQ.push({squaredDistance(points[i]), i});
+            if (maxPQ.size() > k)
+                maxPQ.pop();
+        }
+        vector<vector<int>> answer(k);
+        for (int i = 0; i < k; i++) {
+            answer[i] = points[maxPQ.top().second];
+            maxPQ.pop();
+        }
+        return answer;
+    }
+};
