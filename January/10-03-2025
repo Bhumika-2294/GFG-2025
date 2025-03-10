@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    // Function to compute the edit distance between two strings
+    int solve(string& s1, string& s2, int n, int m, int i , int j, vector<vector<int>>&dp)
+    {
+        if(i == n)
+        {
+            return dp[i][j]=  m-j;
+        }
+        if(j == m)
+        {
+            return dp[i][j]=  n-i;
+        }
+        if(s1[i] == s2[j])
+        {
+            return solve(s1,s2,n,m,i+1,j+1,dp);
+        }
+        if(dp[i][j]!=-1)return dp[i][j];
+        else{
+            int insert = 1 + solve(s1,s2,n,m,i+1,j,dp);
+            int dele = 1 + solve(s1,s2,n,m,i,j+1,dp);
+            int replce = 1 + solve(s1,s2,n,m,i+1,j+1,dp);
+            int maxi = min(insert,min(dele, replce));
+            return dp[i][j]= maxi;
+        }
+        return -1;
+    }
+    int editDistance(string& s1, string& s2) {
+       
+        int n=s1.length();
+        int m=s2.length();
+         vector<vector<int>>dp(n+1, vector<int>(m+1,-1));
+        return solve(s1,s2,n,m,0,0,dp);
+    }
+};
