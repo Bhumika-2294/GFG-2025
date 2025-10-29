@@ -1,0 +1,45 @@
+class Solution {
+  public:
+    void farthestNode(int curr, vector<vector<int>>& adj, int currentDist,
+                      vector<int>& dist, vector<bool>& visited) {
+        if (visited[curr])
+            return;
+        if (dist[0] < currentDist) {
+            // contains an array with index 0
+            // having max dist and index 1 having
+            // node at that distance from src
+            dist[0] = currentDist;
+            dist[1] = curr;
+        }
+        visited[curr] = true;
+        for (int next : adj[curr]) {
+            if (!visited[next]) {
+                farthestNode(next, adj, currentDist + 1, dist, visited);
+            }
+        }
+    }
+
+    int diameter(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(V);
+        for (auto& e : edges) {
+            int u = e[0];
+            int v = e[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        int n = adj.size();
+        vector<int> dist = {0, 0};
+        vector<bool> visited(n + 1, false);
+
+        // finding node at max distance from 0th node
+        farthestNode(0, adj, 0, dist, visited);
+        int end1 = dist[1];
+
+        dist = {0, 0};
+        // finding node at max distance
+        // from end1 of diameter
+        vector<bool> visited2(n, false);
+        farthestNode(end1, adj, 0, dist, visited2);
+        return dist[0];
+    }
+};
