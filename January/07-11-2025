@@ -1,0 +1,34 @@
+class Solution {
+  public:
+    // Utility function for binary search
+    int findNextJob(vector<vector<int>> &jobs, int i) {
+        int low = i + 1, high = jobs.size() - 1, ans = jobs.size();
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (jobs[mid][0] >= jobs[i][1]) {
+                ans = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    int maxProfit(vector<vector<int>> &jobs) {
+        sort(jobs.begin(), jobs.end());
+
+        int n = jobs.size();
+        vector<int> dp(n + 1, 0);
+
+        // Build dp table from end
+        for (int i = n - 1; i >= 0; i--) {
+            int next = findNextJob(jobs, i);
+            int take = jobs[i][2] + dp[next];
+            int skip = dp[i + 1];
+            dp[i] = max(take, skip);
+        }
+
+        return dp[0];
+    }
+};
